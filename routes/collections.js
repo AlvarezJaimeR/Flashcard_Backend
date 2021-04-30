@@ -79,4 +79,46 @@ router.post ('/', async (req, res) => {
     }
 });
 
+//post a new flashcard after taking a collection id
+
+router.post('/:collectionId/cards', async (req, res) => {
+    try {
+        const collection = await Collection.findById(req.params.collectionId);
+        if (!collection)
+            return res.status(400).send(`The collection id "${req.params.collectionId}" does not exist.`);
+
+        const cards = new Flashcard({
+            category: req.body.category,
+            question: req.body.question,
+            answer: req.body.answer,
+        });
+
+        await cards.save();
+
+        return res.send(cards);
+    }   catch (ex){
+        return res.status(500).send(`Internal Server Error: ${ex}`);
+    }
+});
+
+//post a new flashcard after taking a collection and flashcard id
+router.post('/:collectionId/cards/:flashcardId', async (req, res) => {
+    try {
+        const collection = await Collection.findById(req.params.collectionId);
+        if (!collection)
+            return res.status(400).send(`The collection id "${req.params.collectionId}" does not exist.`);
+
+        const flashcard = await Flashcard.findById(req.params.flashcardId);
+        if (!flashcard)
+            return res.status(400).send(`The flashcard id "${req.params.flashcardId}" does not exist.`);
+
+        collection.cards.push(flashcard);
+
+        await collection.save();
+        return res.send(collection.cards);
+    }   catch (ex) {
+        return res.status(500).send(`Internal Server Error: ${ex}`);
+    }
+});
+
 module.exports = router;
