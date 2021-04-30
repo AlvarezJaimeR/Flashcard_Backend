@@ -1,5 +1,5 @@
 const { Flashcard } = require('../models/flashcard');
-const { Collection, validate } = require('../models/collection');
+const { Collection, validateC } = require('../models/collection');
 const express = require('express');
 const router = express.Router();
 

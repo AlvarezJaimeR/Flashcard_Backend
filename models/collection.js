@@ -17,5 +17,5 @@ function validateCollection(collection){
 }
 
 exports.Collection = Collection;
-exports.validate = validateCollection;
+exports.validateC = validateCollection;
 exports.collectionSchema = collectionSchema;
