@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
 const Joi = require('joi');
+const { flashcardSchema } = require('./flashcard');
 
 const collectionSchema = new mongoose.Schema({
     title: { type: String, required: true, minlength: 2, maxlength: 255 },
+    cards: [flashcardSchema],
 });
 
 const Collection = mongoose.model('Collection', collectionSchema);
