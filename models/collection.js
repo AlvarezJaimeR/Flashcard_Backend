@@ -4,7 +4,7 @@ const { flashcardSchema } = require('./flashcard');
 
 const collectionSchema = new mongoose.Schema({
     title: { type: String, required: true, minlength: 2, maxlength: 255 },
-    cards: [flashcardSchema],
+    cards: { type: [flashcardSchema], default: [] },
 });
 
 const Collection = mongoose.model('Collection', collectionSchema);
