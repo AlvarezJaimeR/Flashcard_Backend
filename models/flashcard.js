@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Joi = require('joi');
-const { collectionSchema } = require('./collection');
 
 const flashcardSchema = new mongoose.Schema({
     category: { type: String, required: true, minlength: 5, maxlength: 50 },
