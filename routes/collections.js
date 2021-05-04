@@ -164,6 +164,19 @@ router.put('/:collectionId/cards/:flashcardId', async (req, res) => {
     }
 });
 
+//delete a collection
+router.delete('/:id', async (req, res) => {
+    try {
+        const collection = await Collection.findByIdAndRemove(req.params.id);
+        if (!collection)
+        return res.status(400).send(`The collection id "${req.params.id}" does not exist.`);
+
+        return res.send(collection);
+    }   catch (ex){
+        return res.status(500).send(`Internal Server Error: ${ex}`);
+    }
+});
+
 //delete a flashcard after taking in a collection and flashcard id
 router.delete('/:collectionId/cards/:flashcardId', async (req, res) => {
     try {
@@ -180,7 +193,7 @@ router.delete('/:collectionId/cards/:flashcardId', async (req, res) => {
         await collection.save();
         return res.send(flashcard);
     }   catch (ex){
-        return res.status(500).send (`Internal Server Error: "${ex}"`);
+        return res.status(500).send (`Internal Server Error: ${ex}`);
     }
 });
 
