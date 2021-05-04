@@ -120,6 +120,25 @@ router.post('/:collectionId/cards/:flashcardId', async (req, res) => {
     }
 });
 
+//put -- update a collection 
+router.put('/:id', async (req, res) => {
+    try {
+        const { error } = validateC(req.body);
+        if (error) return res.status(400).send(error);
+
+        const collection = await Collection.findById(req.params.id);
+        if(!collection)
+        return res.status(400).send(`The collection id "${req.params.id}" does not exist.`);
+
+        collection.title = req.body.title;
+
+        await collection.save();
+        return res.send(collection);
+    }   catch (ex){
+        return res.status(500).send(`Internal Server Error: ${ex}`);
+    }
+});
+
 //put -- update the flashcard after taking a collection and flashcard id
 router.put('/:collectionId/cards/:flashcardId', async (req, res) => {
     try {
