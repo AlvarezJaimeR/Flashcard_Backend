@@ -86,15 +86,16 @@ router.post('/:collectionId/cards', async (req, res) => {
         if (!collection)
             return res.status(400).send(`The collection id "${req.params.collectionId}" does not exist.`);
 
-        const cards = new Flashcard({
+        const card = new Flashcard({
             category: req.body.category,
             question: req.body.question,
             answer: req.body.answer,
         });
 
-        await cards.save();
-
-        return res.send(cards);
+        collection.cards.push(card);
+        await collection.save();
+        
+        return res.send(collection.cards);
     }   catch (ex){
         return res.status(500).send(`Internal Server Error: ${ex}`);
     }
